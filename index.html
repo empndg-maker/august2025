@@ -6,10 +6,14 @@
     <title>HONMOON</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gold: #FFD700;
+            --soft-grey: #a0aec0;
+        }
+
         body {
-            /* A subtle, deep gradient for a more premium feel */
             background: linear-gradient(170deg, #1a202c, #0d1117);
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -18,74 +22,210 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
+            color: white;
         }
 
         .container {
             text-align: center;
         }
 
-        /* The main "YES" text container */
         .main-text {
             font-size: 20vw;
-            font-weight: 900; /* Extra bold */
-            color: #FFD700;
+            font-weight: 900;
+            color: var(--primary-gold);
             text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-            
-            /* Use Flexbox to align the letters */
             display: flex;
         }
 
-        /* Individual letters of "YES" for staggered animation */
         .main-text span {
-            opacity: 0; /* Start invisible */
-            transform: translateY(30px); /* Start slightly lower */
+            opacity: 0;
+            transform: translateY(30px);
             animation: fadeUp 0.8s ease-out forwards;
         }
 
-        /* Stagger the animation start time for each letter */
         .main-text span:nth-child(1) { animation-delay: 0.5s; }
         .main-text span:nth-child(2) { animation-delay: 0.7s; }
         .main-text span:nth-child(3) { animation-delay: 0.9s; }
         
-        /* The smaller "for now..." sub-text */
         .sub-text {
             font-size: 3.5vw;
-            font-weight: 300; /* A much lighter font weight */
-            font-style: italic; /* Italicized for contrast */
-            color: #a0aec0; /* A soft, complimentary blue-grey */
+            font-weight: 300;
+            font-style: italic;
+            color: var(--soft-grey);
             margin-top: 1.5vh;
-            
-            /* Fade in after the main text animation is complete */
             opacity: 0;
             animation: fadeIn 2s ease-in 1.9s forwards;
         }
+
+        /* --- New Interactive Styles --- */
+        .interactive-panel {
+            margin-top: 5vh;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .interactive-panel.visible {
+            opacity: 1;
+            height: auto;
+        }
+
+        .panel-question {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            color: white;
+            background-color: transparent;
+            border: 2px solid var(--soft-grey);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+            transform: translateY(-3px);
+        }
+        
+        .btn-donate {
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+        }
+        
+        .btn-donate:hover {
+            background-color: var(--primary-gold);
+            color: #0d1117;
+        }
         
         /* --- Animation Definitions --- */
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        /* Used for the main letters */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Used for the sub-text */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="main-text">
-            <span>Y</span>
-            <span>E</span>
-            <span>S</span>
+            <span>Y</span><span>E</span><span>S</span>
         </div>
         <div class="sub-text">for now...</div>
+
+        <div id="interaction-zone">
+
+            <div id="initial-choice" class="interactive-panel">
+                <div class="panel-question">Keep it sealed?</div>
+                <div class="button-group">
+                    <button id="btn-seal-yes" class="btn">Yes</button>
+                    <button id="btn-seal-no" class="btn">No</button>
+                </div>
+            </div>
+
+            <div id="seal-donate" class="interactive-panel">
+                <div class="panel-question">Help keep it sealed.</div>
+                <div class="button-group">
+                    <a href="https://bobbyfan.gumroad.com/l/jmhur?price=50" class="btn btn-donate">$0.50</a>
+                    <a href="https://bobbyfan.gumroad.com/l/jmhur?price=100" class="btn btn-donate">$1.00</a>
+                    <a href="https://bobbyfan.gumroad.com/l/jmhur" class="btn btn-donate">Custom</a>
+                </div>
+            </div>
+            
+            <div id="unseal-confirm-1" class="interactive-panel">
+                <div class="panel-question">Are you sure?</div>
+                <div class="button-group">
+                    <button id="btn-confirm1-yes" class="btn">Yes</button>
+                    <button id="btn-confirm1-no" class="btn">No</button>
+                </div>
+            </div>
+
+            <div id="unseal-confirm-2" class="interactive-panel">
+                <div class="panel-question">Are you <i>really</i> really sure?</div>
+                <div class="button-group">
+                    <button id="btn-confirm2-yes" class="btn">Yes</button>
+                    <button id="btn-confirm2-no" class="btn">No</button>
+                </div>
+            </div>
+
+            <div id="unseal-donate" class="interactive-panel">
+                <div class="panel-question">You can help unseal it.</div>
+                <div class="button-group">
+                    <a href="https://bobbyfan.gumroad.com/l/vwief?price=50" class="btn btn-donate">$0.50</a>
+                    <a href="https://bobbyfan.gumroad.com/l/vwief?price=100" class="btn btn-donate">$1.00</a>
+                    <a href="https://bobbyfan.gumroad.com/l/vwief" class="btn btn-donate">Custom</a>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+    <script src="https://gumroad.com/js/gumroad.js"></script>
+    
+    <script>
+        // --- Element Selection ---
+        const panels = document.querySelectorAll('.interactive-panel');
+        const initialChoicePanel = document.getElementById('initial-choice');
+        const sealDonatePanel = document.getElementById('seal-donate');
+        const unsealConfirm1Panel = document.getElementById('unseal-confirm-1');
+        const unsealConfirm2Panel = document.getElementById('unseal-confirm-2');
+        const unsealDonatePanel = document.getElementById('unseal-donate');
+
+        // --- Button Selection ---
+        // Path to "Seal"
+        const btnSealYes = document.getElementById('btn-seal-yes');
+        const btnSealNo = document.getElementById('btn-seal-no');
+        
+        // Path to "Unseal"
+        const btnConfirm1Yes = document.getElementById('btn-confirm1-yes');
+        const btnConfirm1No = document.getElementById('btn-confirm1-no');
+        const btnConfirm2Yes = document.getElementById('btn-confirm2-yes');
+        const btnConfirm2No = document.getElementById('btn-confirm2-no');
+
+        // --- Logic Functions ---
+        // Function to hide all panels
+        function hideAllPanels() {
+            panels.forEach(panel => {
+                panel.classList.remove('visible');
+            });
+        }
+
+        // Function to show a specific panel
+        function showPanel(panelToShow) {
+            hideAllPanels();
+            panelToShow.classList.add('visible');
+        }
+
+        // --- Event Listeners ---
+        // Path to "Seal"
+        btnSealYes.addEventListener('click', () => showPanel(sealDonatePanel));
+        btnSealNo.addEventListener('click', () => showPanel(unsealConfirm1Panel));
+
+        // Path to "Unseal"
+        btnConfirm1Yes.addEventListener('click', () => showPanel(unsealConfirm2Panel));
+        btnConfirm1No.addEventListener('click', () => showPanel(initialChoicePanel)); // Go back
+
+        btnConfirm2Yes.addEventListener('click', () => showPanel(unsealDonatePanel));
+        btnConfirm2No.addEventListener('click', () => showPanel(initialChoicePanel)); // Go back
+
+        // --- Initial Timer ---
+        // After 4 seconds, show the first question.
+        setTimeout(() => {
+            showPanel(initialChoicePanel);
+        }, 4000); // 4000 milliseconds = 4 seconds
+    </script>
 </body>
 </html>
