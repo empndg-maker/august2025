@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yes</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #1f3c88; /* Brighter navy */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    h1 {
+      font-size: 8rem;
+      color: white;
+      text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: 1s; /* wait 1 second before showing */
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Yes</h1>
+</body>
+</html>
