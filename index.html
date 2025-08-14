@@ -11,22 +11,81 @@
         :root {
             --primary-gold: #FFD700;
             --soft-grey: #a0aec0;
+            /* Vibrant colors */
+            --vibrant-pink: #FF69B4;
+            --vibrant-purple: #9400D3;
         }
 
         body {
-            background: linear-gradient(170deg, #1a202c, #0d1117);
+            /* CORRECTED: New linear gradient for a "city at night" feel */
+            background: linear-gradient(180deg, #0d1117 0%, #191970 70%, #483d8b 100%);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: grid;
+            place-items: center;
             min-height: 100vh;
             overflow: hidden;
             color: white;
+            position: relative;
         }
+
+        .tendril-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .tendril {
+            position: absolute;
+            width: 700px; /* Wider for a longer trail */
+            height: 3px;  /* Thin trail */
+            opacity: 0;
+            filter: blur(2px); /* Soft glow */
+            animation: flow 20s infinite ease-in-out;
+        }
+
+        .tendril::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        
+        /* Direct background gradient application for each tendril */
+        .tendril:nth-child(1)::before { background: linear-gradient(90deg, transparent, var(--vibrant-pink), transparent); }
+        .tendril:nth-child(2)::before { background: linear-gradient(90deg, transparent, var(--vibrant-purple), transparent); }
+        .tendril:nth-child(3)::before { background: linear-gradient(90deg, transparent, var(--vibrant-pink), transparent); }
+        .tendril:nth-child(4)::before { background: linear-gradient(90deg, transparent, var(--vibrant-purple), transparent); }
+        .tendril:nth-child(5)::before { background: linear-gradient(90deg, transparent, var(--vibrant-pink), transparent); }
+
+        /* Unique animation for each tendril */
+        .tendril:nth-child(1) { animation-name: wave-1; animation-duration: 25s; }
+        .tendril:nth-child(2) { animation-name: wave-2; animation-duration: 30s; }
+        .tendril:nth-child(3) { animation-name: wave-3; animation-duration: 22s; }
+        .tendril:nth-child(4) { animation-name: wave-4; animation-duration: 28s; }
+        .tendril:nth-child(5) { animation-name: wave-5; animation-duration: 35s; }
 
         .container {
             text-align: center;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Always visible */
+        .pre-text {
+            font-size: 1.5vw;
+            font-weight: 300;
+            color: var(--soft-grey);
+            margin-bottom: 0.5vh;
         }
 
         .main-text {
@@ -57,7 +116,6 @@
             animation: fadeIn 2s ease-in 1.9s forwards;
         }
 
-        /* --- New Interactive Styles --- */
         .interactive-panel {
             margin-top: 5vh;
             opacity: 0;
@@ -117,10 +175,46 @@
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { to { opacity: 1; } }
 
+        /* New wave-like animation paths */
+        @keyframes wave-1 {
+            0% { transform: translate(-100%, 20vh) rotate(-10deg); opacity: 0; }
+            50% { transform: translate(50vw, 25vh) rotate(10deg); opacity: 0.7; }
+            100% { transform: translate(120%, 30vh) rotate(-10deg); opacity: 0; }
+        }
+        @keyframes wave-2 {
+            0% { transform: translate(120%, 80vh) rotate(5deg); opacity: 0; }
+            50% { transform: translate(40vw, 75vh) rotate(-5deg); opacity: 0.6; }
+            100% { transform: translate(-100%, 70vh) rotate(5deg); opacity: 0; }
+        }
+        @keyframes wave-3 {
+            0% { transform: translate(-100%, 50vh) rotate(15deg); opacity: 0; }
+            50% { transform: translate(50vw, 55vh) rotate(0deg); opacity: 0.5; }
+            100% { transform: translate(120%, 45vh) rotate(-15deg); opacity: 0; }
+        }
+        @keyframes wave-4 {
+            0% { transform: translate(120%, 95vh) rotate(-10deg); opacity: 0; }
+            50% { transform: translate(30vw, 90vh) rotate(5deg); opacity: 0.7; }
+            100% { transform: translate(-100%, 85vh) rotate(-5deg); opacity: 0; }
+        }
+        @keyframes wave-5 {
+            0% { transform: translate(-100%, 5vh) rotate(5deg); opacity: 0; }
+            50% { transform: translate(50vw, 10vh) rotate(-5deg); opacity: 0.6; }
+            100% { transform: translate(120%, 15vh) rotate(10deg); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
+    <div class="tendril-container">
+        <div class="tendril"></div>
+        <div class="tendril"></div>
+        <div class="tendril"></div>
+        <div class="tendril"></div>
+        <div class="tendril"></div>
+    </div>
+
     <div class="container">
+        <div class="pre-text">Is the Honmoon sealed?</div>
         <div class="main-text">
             <span>Y</span><span>E</span><span>S</span>
         </div>
